@@ -5,8 +5,7 @@ app = FastAPI()
 
 @app.get("/")
 def root():
-    return {"message": "Hello Duke"}
-
+    return {"message": "Hello Dukes"}
 orders = []
 def coffee_bot():
     welcome_message()
