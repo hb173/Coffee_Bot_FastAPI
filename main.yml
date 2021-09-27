@@ -1,0 +1,263 @@
+orders = []
+
+import yaml
+
+def coffee_bot():
+
+    yaml_stream = open("coffeeshop.yaml",'r')
+    # dictionary is created when we load the yaml file as it is a key value pair.
+    dictionary = yaml.load(yaml_stream,yaml.FullLoader)
+    for key, value in dictionary.items():
+        print (key + " : " + str(value))
+
+    welcome_message()
+
+    order_taking(orders, dictionary)
+
+    receipt(orders)
+
+    name = input("\nCan I get your name please? ")
+
+    print("\nThanks, {}! Please proceed to the pick up counter for your order!".format(name))
+
+
+# Welcome Message, called in main function
+
+def welcome_message():
+
+    print("Welcome to the Starbucks! \n\nToday's specials are Cherry Blossom Frappuccino and Nitro Cold Brew.")
+
+# Order Taking, called in main function
+
+def order_taking(orders, dictionary):
+
+    size = get_size(dictionary)
+
+    print(size)
+
+    temp_type = get_temp(dictionary)
+
+    print(temp_type)
+
+    drink_type = get_drink_type(dictionary)
+
+    print(drink_type)
+
+    cup_type = get_cup(dictionary)
+
+    print(drink_type)
+
+    quantity = get_quantity(dictionary)
+
+    print(quantity)
+
+    orders.append([quantity, size, temp_type, drink_type, cup_type])
+
+    print("\n" + str(orders))
+
+    print("\nAlright, that\'s {} {} {} {} {}!".format(quantity, size, temp_type, drink_type, cup_type))
+
+    addon_prompt()
+
+# For Additional Orders, called in Order Taking function
+
+def addon_prompt(dictionary):
+
+    print(dictionary['add-on-order-message'])
+    res = input(dictionary['add-on-order'])
+
+    res = res.lower()
+
+    if res == "a":
+        print("\nAlright, taking your new order!")
+        return order_taking(orders)
+
+    else:
+        print("\nAlright, processing your orders now!")
+
+
+# Error Message, used for invalid input
+def error_message():
+
+    print("\nI'm sorry, I did not understand your selection.\n\nPlease enter the corresponding letter for your response.")
+
+
+# Order Summary, called in main function
+
+def receipt(orders):
+    total_orders = range(1, (len(orders) + 1))
+    print("\nYou have placed " + str((len(orders))) + " orders. Your orders are: ")
+
+    for order in orders:
+        print(*order)
+
+
+# Size Choice, called in Order Taking function
+
+def get_size(dictionary):
+    print()
+    print(dictionary['drink-size-message'])
+    res = input("\n".join(dictionary['drink-size']))
+
+    res = res.lower()
+
+    if res == "a":
+        return dictionary['drink-size'][0].split(' ')[1]
+    elif res == "b":
+        return dictionary['drink-size'][1].split(' ')[1]
+    elif res == "c":
+        return dictionary['drink-size'][2].split(' ')[1]
+    else:
+        error_message()
+
+    return get_size()
+
+# Drink Choice, called in Order Taking function
+
+def get_drink_type(dictionary):
+
+    print()
+    print(dictionary['drink-type-message'])
+
+    res = input("\n".join(dictionary['drink-type']))
+
+    res = res.lower()
+
+    if res == "a":
+        return dictionary['drink-type'][0].split(' ')[1]
+    elif res == "b":
+        return dictionary['drink-type'][1].split(' ')[1]
+    elif res == "c":
+        return order_latte()
+    else:
+        error_message()
+
+    return get_drink_type()
+
+
+# Milk Component, called in Get_Drink_Type function
+
+def order_latte(dictionary):
+    print()
+    print(dictionary['milk-type-message'])
+
+    res = input("\n".join(dictionary['milk-type']))
+
+    res = res.lower()
+
+    if res == "a":
+        return dictionary['milk-type'][0].split(' ')[1]
+    elif res == "b":
+        return dictionary['milk-type'][1].split(' ')[1]
+    elif res == "c":
+        return dictionary['milk-type'][2].split(' ')[1]
+    else:
+        error_message()
+
+    return order_latte()
+
+
+# Temp Choice, called in Order Taking function
+
+def get_temp(dictionary):
+    print()
+    print(dictionary['drink-temp-message'])
+
+    res = input("\n".join(dictionary['drink-temp']))
+
+    res = res.lower()
+
+    if res == "a":
+        return dictionary['drink-temp'][0].split(' ')[1]
+    elif res == "b":
+        return dictionary['drink-temp'][1].split(' ')[1]
+    else:
+        error_message()
+
+    return get_temp()
+
+
+# Cup choice, called in Order Taking function
+def get_cup(dictionary):
+
+    print()
+    print(dictionary['cup-type-message'])
+    res = input("\n".join(dictionary['cup-type']))
+    res = res.lower()
+    if res == "a":
+        return "in ".append(dictionary['cup-type'][0].split(' ')[1])
+    elif res == "b":
+        return "in ".append(dictionary['cup-type'][1].split(' ')[1])
+    elif res == "c":
+        return "in ".append(dictionary['cup-type'][2].split(' ')[1])
+    else:
+        error_message()
+
+    return get_cup()
+
+
+# Quantity choice, called in Order Taking function
+def get_quantity(dictionary):
+    print()
+    res = input("dictionary['order-qty-message']")
+
+    try:
+        res = int(res)
+        return res
+
+    except ValueError:
+        print("\nInvalid input. Please enter a value quantity.")
+
+    return get_quantity()
+
+# Call the Bot function
+coffee_bot()
+Modified the python code to take the input message and input options based on the yaml file.
+
+Please find the yaml file attached which takes all the options and inputs rather than as in input string earlier written in the code.
+
+---
+welcome-message: "Welcome to the Starbucks!"
+today-special: "Today's specials are Cherry Blossom Frappuccino and Nitro Cold Brew."
+
+drink-size-message: "What size drink can I get for you?"
+drink-size:
+  - a Small
+  - b Medium
+  - c Large
+
+drink-temp-message: "How would you like your drink?"
+drink-temp:
+  - a Hot
+  - b Iced
+
+drink-type-message: "What type of drink would you like?"
+drink-type:
+  - a Brewed Coffee
+  - b Mocha
+  - c Latte
+
+milk-type-message: "And what kind of milk for your latte?"
+milk-type:
+  - a 2% milk
+  - b Non-fat milk
+  - c Soy milk
+
+cup-type-message: "What type of cup would you like to use?"
+cup-type:
+  - a Dine-in Cup
+  - b Takeaway Cup
+  - c Your own Reusable Cup
+
+order-qty-message: "What is quantity for this order?"
+
+add-on-order-message: "Do you wish to add another order?"
+add-on-order:
+  - a Yes
+  - b No
+
+order-message: "Alright, that's"
+
+order-process-message: "Alright, processing your orders now!"
+
+name-message: "Can I get your name please?"
