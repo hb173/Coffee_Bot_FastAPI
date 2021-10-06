@@ -5,6 +5,7 @@ app = FastAPI()
 
 @app.get("/")
 def root():
+<<<<<<< HEAD
 	return {"message": "Hello Dukes"}
 orders = []
 def coffee_bot():
@@ -143,6 +144,9 @@ async def get_quantity():
 		return get_quantity()
 
 coffee_bot()
+=======
+    return {"message": "Hello Dukes"}
+>>>>>>> 594f2dea888cd711fca7cd1d087e2d6bf4c7c61b
 
 if __name__ == '__main__':
 	uvicorn.run(app, port=8080, host='0.0.0.0')
