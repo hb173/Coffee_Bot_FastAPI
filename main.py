@@ -8,7 +8,8 @@ def root():
     return {"message": "Welcome to Auto Bot Cafes"}
 
 orders = []
-def coffee_bot():
+@app.get("/coffee_bot")
+async def coffee_bot():
     welcome_message()
     order_taking(orders)
     receipt(orders)
@@ -23,7 +24,7 @@ async def welcome_message():
     print("Hello Jie, Welcome to the OG Cafe! \n\nToday's specials are Red Label Chai and Caramel Machiato.")
 
 #Order Taking, called in main function
-@app.get("/order_taking/(orders")
+@app.get("/order_taking/orders")
 async def order_taking(orders):
     size = get_size()
     temp_type = get_temp()
@@ -36,7 +37,8 @@ async def order_taking(orders):
     addon_prompt()
 
 #For Additional Orders, called in Order Taking function
-def addon_prompt():
+@app.get("/addon_prompt")
+async def addon_prompt():
     res = input("\nDo you wish to add another order? \n[a] Yes \n[b] No \n> ")
     res = res.lower()
     if res == "a":
@@ -46,18 +48,20 @@ def addon_prompt():
         print("\nAlright, processing your orders now!")
 
 #Error Message, used for invalid input
-def error_message():
+@app.get("/error_message")
+async def error_message():
     print("\nI'm sorry, I did not understand your selection.\n\nPlease enter the corresponding letter for your response.")
 
 #Order Summary, called in main function
-def receipt(orders):
+@app.get("/receipt/orders")
+async def receipt(orders):
     total_orders = range(1, (len(orders)+1))
     print("\nYou have placed " + str((len(orders))) + " orders. Your orders are: ")
     for order in orders:
         print(*order)
 
 #Size Choice, called in Order Taking function
-@app.get("get_size()")
+@app.get("/get_size")
 async def get_size():
     res = input('\nWhat size drink can I get for you? \n[a] Small \n[b] Medium \n[c] Large \n> ')
     res = res.lower()
@@ -72,7 +76,8 @@ async def get_size():
         return get_size()
 
 #Drink Choice, called in Order Taking function
-def get_drink_type():
+@app.get("/get_drink_type")
+async def get_drink_type():
     res = input("\nWhat type of drink would you like?\n[a] Brewed Coffee \n[b] Mocha \n[c] Latte \n> ")
     res = res.lower()
     if res == "a":
@@ -86,7 +91,7 @@ def get_drink_type():
         return get_drink_type()
 
 #Milk Component, called in Get_Drink_Type function
-@app.get("order_latte()")
+@app.get("/order_latte")
 async def order_latte():
     res = input("\nAnd what kind of milk for your latte? \n[a] 2% milk \n[b] Non-fat milk \n[c] Soy milk \n> ")
     res = res.lower()
@@ -101,7 +106,7 @@ async def order_latte():
         return order_latte()
 
 #Temp Choice, called in Order Taking function
-@app.get("/get_temp()")
+@app.get("/get_temp")
 async def get_temp():
     res = input("\nHow would you like your drink? \n[a] Hot \n[b] Iced \n> ")
     res = res.lower()
@@ -114,7 +119,7 @@ async def get_temp():
         return get_temp()
 
 #Cup choice, called in Order Taking function
-@app.get("get_cup()")
+@app.get("/get_cup")
 async def get_cup():
     res = input("\nWhat type of cup would you like to use?\n[a] Dine-in Cup \n[b] Takeaway Cup \n[c] Your own Reusable Cup \n> ")
     res = res.lower()
@@ -129,7 +134,7 @@ async def get_cup():
         return get_cup()
 
 #Quantity choice, called in Order Taking function
-@app.get("get_quantity()")
+@app.get("/get_quantity")
 async def get_quantity():
     res = input("\nWhat is quantity for this order? > ")
     try:
