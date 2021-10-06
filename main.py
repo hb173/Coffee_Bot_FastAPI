@@ -122,5 +122,5 @@ def get_quantity():
     except ValueError:
         print("\nInvalid input. Please enter a value quantity.")
         return get_quantity()
-
-coffee_bot()
+if __name__ == "__main__":
+    coffee_bot()
