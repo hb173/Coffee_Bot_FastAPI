@@ -8,7 +8,7 @@ def root():
     return {"message": "Welcome to Auto Bot Cafes"}
 
 orders = []
-@app.get("/coffee_bot")
+@app.get("/coffee_bot/")
 async def coffee_bot():
     welcome_message()
     order_taking(orders)
@@ -24,7 +24,7 @@ async def welcome_message():
     print("Hello Jie, Welcome to the OG Cafe! \n\nToday's specials are Red Label Chai and Caramel Machiato.")
 
 #Order Taking, called in main function
-@app.get("/order_taking/orders")
+@app.get("/order_taking/{orders}")
 async def order_taking(orders):
     size = get_size()
     temp_type = get_temp()
