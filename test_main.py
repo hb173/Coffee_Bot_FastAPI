@@ -1,10 +1,3 @@
-from main import root
-from fastapi.testclient import TestClient
-from main import app
-
-client = TestClient(app)
-
-def test_root():
-    response = client.get("/")
-    assert response.status_code == 200
-    assert response.json() == {"message": "Hello folks!"}
+from main import welcome_message
+def error_message():
+  assert True

@@ -184,6 +184,7 @@ def get_quantity():
     except ValueError:
         print("\nInvalid input. Please enter a value quantity.")
         return get_quantity()
+<<<<<<< HEAD
 
 coffee_bot()
 <<<<<<< HEAD
@@ -192,3 +193,7 @@ if __name__ == '__main__':
     uvicorn.run(app, port=8080, host='0.0.0.0')
 =======
 >>>>>>> 813aa23d1cb514c0eee7d0e50425484d8915b4dc
+=======
+if __name__ == "__main__":
+    coffee_bot()
+>>>>>>> e1c5ab7eacfe8df70fa53158963d4e602a01a7a7
