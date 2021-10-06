@@ -1,3 +1,3 @@
-from main import generate
-def test_generate():
+from main import welcome_message
+def error_message():
   assert True
